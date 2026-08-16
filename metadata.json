@@ -1,0 +1,7 @@
+{
+  "name": "OmniVideo AI - Seedance & Kling AI Video SaaS",
+  "description": "Nền tảng SaaS tạo video AI thương mại hỗ trợ đăng ký/đăng nhập Google OAuth & Firebase, đồng bộ Firestore, đa nền tảng API Kling AI, Seedance, Luma, Runway với Video Studio và API Gateway.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+

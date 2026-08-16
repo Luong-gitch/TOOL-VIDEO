@@ -1,0 +1,104 @@
+{
+  "entities": {
+    "UserProfile": {
+      "title": "UserProfile",
+      "description": "User profile with plan, balance, and authentication metadata",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 2048 },
+        "planName": { "type": "string", "enum": ["Starter", "Pro Creator", "Studio", "Enterprise"] },
+        "credits": { "type": "number" },
+        "totalGenerated": { "type": "number" },
+        "monthlyQuota": { "type": "number" },
+        "renewalDate": { "type": "string", "maxLength": 64 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "lastLoginAt": { "type": "string" }
+      },
+      "required": ["uid", "email", "planName", "credits", "totalGenerated", "monthlyQuota"]
+    },
+    "UserTask": {
+      "title": "UserTask",
+      "description": "AI video generation task parameters and status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "provider": { "type": "string", "maxLength": 64 },
+        "model": { "type": "string", "maxLength": 64 },
+        "mode": { "type": "string", "maxLength": 32 },
+        "prompt": { "type": "string", "maxLength": 5000 },
+        "enhancedPrompt": { "type": "string", "maxLength": 5000 },
+        "negativePrompt": { "type": "string", "maxLength": 2000 },
+        "imageUrl": { "type": "string", "maxLength": 2048 },
+        "lastFrameUrl": { "type": "string", "maxLength": 2048 },
+        "aspectRatio": { "type": "string", "maxLength": 16 },
+        "resolution": { "type": "string", "maxLength": 16 },
+        "duration": { "type": "number" },
+        "fps": { "type": "number" },
+        "cfgScale": { "type": "number" },
+        "motionStrength": { "type": "number" },
+        "cameraMovement": { "type": "object" },
+        "seed": { "type": "number" },
+        "status": { "type": "string", "maxLength": 32 },
+        "progress": { "type": "number" },
+        "currentStep": { "type": "string", "maxLength": 256 },
+        "videoUrl": { "type": "string", "maxLength": 2048 },
+        "thumbnailUrl": { "type": "string", "maxLength": 2048 },
+        "creditsCost": { "type": "number" },
+        "logs": { "type": "array" },
+        "createdAt": { "type": "number" },
+        "completedAt": { "type": "number" },
+        "syncedAt": { "type": "string" }
+      },
+      "required": ["id", "provider", "model", "mode", "prompt", "aspectRatio", "resolution", "duration", "status", "progress", "createdAt", "creditsCost"]
+    },
+    "VideoProject": {
+      "title": "VideoProject",
+      "description": "Video production multi-scene project workspace",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128, "pattern": "^[a-zA-Z0-9_\\-]+$" },
+        "userId": { "type": "string", "maxLength": 128 },
+        "title": { "type": "string", "maxLength": 256 },
+        "description": { "type": "string", "maxLength": 4000 },
+        "category": { "type": "string", "maxLength": 64 },
+        "aspectRatio": { "type": "string", "maxLength": 16 },
+        "defaultProvider": { "type": "string", "maxLength": 64 },
+        "status": { "type": "string", "maxLength": 32 },
+        "thumbnailUrl": { "type": "string", "maxLength": 2048 },
+        "scenes": { "type": "array" },
+        "clips": { "type": "array" },
+        "createdAt": { "type": "number" },
+        "updatedAt": { "type": "number" },
+        "syncedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "category", "aspectRatio", "defaultProvider", "status", "createdAt", "updatedAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "UserProfile" },
+      "description": "User profile with plan and credit quotas"
+    },
+    "/users/{userId}/tasks/{taskId}": {
+      "schema": { "$ref": "UserTask" },
+      "description": "Personal AI video generation tasks"
+    },
+    "/users/{userId}/projects/{projectId}": {
+      "schema": { "$ref": "VideoProject" },
+      "description": "Personal video production workspace projects"
+    },
+    "/tasks/{taskId}": {
+      "schema": { "$ref": "UserTask" },
+      "description": "Top-level tasks collection"
+    },
+    "/test/connection": {
+      "schema": "object",
+      "description": "Health check connection document"
+    }
+  }
+}
